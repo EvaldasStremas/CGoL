@@ -30,21 +30,33 @@ def main():
 
     replace_grid(grid, START_POINT_COLS, START_POINT_ROWS)
 
-    # around_point = [
-    # grid[START_POINT_COLS-1][START_POINT_ROWS-1],
-    # grid[START_POINT_COLS-1][START_POINT_ROWS],
-    # grid[START_POINT_COLS-1][START_POINT_ROWS+1],
-    # grid[START_POINT_COLS][START_POINT_ROWS-1],
-    # grid[START_POINT_COLS][START_POINT_ROWS+1],
-    # grid[START_POINT_COLS+1][START_POINT_ROWS-1],
-    # grid[START_POINT_COLS-1][START_POINT_ROWS],
-    # grid[START_POINT_COLS+1][START_POINT_ROWS+1]
-    # ]
+    # grid[START_POINT_COLS-1][START_POINT_ROWS-1] = 'X' #x1/y1
+    # grid[START_POINT_COLS-1][START_POINT_ROWS] = 'X' #x2/y1
+    # grid[START_POINT_COLS-1][START_POINT_ROWS+1] = 'X' #x3/y1
+    # grid[START_POINT_COLS][START_POINT_ROWS-1] = 'X' #x1/y2
+    # grid[START_POINT_COLS][START_POINT_ROWS+1] = 'X' #x3/y2
+    # grid[START_POINT_COLS+1][START_POINT_ROWS-1] = 'X' #x1/y3
+    # grid[START_POINT_COLS+1][START_POINT_ROWS] = 'X' #x2/y3
+    # grid[START_POINT_COLS+1][START_POINT_ROWS+1] = 'X' #x3/y3
 
-    for i in range(len(around_point)):
-        around_point[i] = FILL_SYMBOL
+    around_point = [
+    grid[START_POINT_COLS-1][START_POINT_ROWS-1],
+    grid[START_POINT_COLS-1][START_POINT_ROWS],
+    grid[START_POINT_COLS-1][START_POINT_ROWS+1],
+    grid[START_POINT_COLS][START_POINT_ROWS-1],
+    grid[START_POINT_COLS][START_POINT_ROWS+1],
+    grid[START_POINT_COLS+1][START_POINT_ROWS-1],
+    grid[START_POINT_COLS+1][START_POINT_ROWS],
+    grid[START_POINT_COLS+1][START_POINT_ROWS+1]
+    ]
 
-    print(around_point)
+    for x in range(NUM_ROWS):
+        for y in range(NUM_COLS):
+            if grid[x][y] == 'X':
+                print('hello')
+
+    # print_grid(grid)
+    # print(around_point)
 
     # print(grid)
     # print_grid(grid)

@@ -1,3 +1,5 @@
+import copy
+
 NUM_ROWS = 6
 NUM_COLS = 6
 EMPTY_SYMBOL = "O"
@@ -30,19 +32,15 @@ def replace_grid(grid, START_POINT_COLS, START_POINT_ROWS):
 # ------------------------------------MAIN-----------------------------------------
 def main():
     grid = get_empty_grid(NUM_COLS, NUM_ROWS, EMPTY_SYMBOL)
-    calculater_grid = grid
+    calculater_grid = copy.deepcopy(grid)
     grid = replace_grid(grid, START_POINT_COLS, START_POINT_ROWS)
 
-    # grid[1][1] = 'X'
-    # grid[1][2] = 'X'
-    # grid[1][6] = 'X'
-    # grid[1][7] = 'X'
-    # # grid[2][7] = 'X'
-    # grid[1][8] = 'X'
     grid[2][3] = 'X'
     grid[2][4] = 'X'
+    grid[2][1] = 'X'
 
     print_grid(grid)
+    print()
 
     for x in range(NUM_ROWS):
         for y in range(NUM_COLS):
@@ -61,10 +59,34 @@ def main():
 
                 x_counter = around_point.count(FILL_SYMBOL)
 
-                print(x_counter)
-
                 if x_counter == 2:
                     calculater_grid[x][y] = FILL_SYMBOL
+
+                if x_counter == 3:
+                    calculater_grid[x][y] = FILL_SYMBOL
+
+                horizontal_neighbors = [
+                    grid[x - 1][y],
+                    grid[x][y],
+                    grid[x + 1][y],
+                ]
+
+                vertical_neighbors = [
+                    grid[x][y - 1],
+                    grid[x][y],
+                    grid[x][y + 1],
+                ]
+
+                vertical_neighbors_counter = vertical_neighbors.count(FILL_SYMBOL)
+                horizontal_neighbors_counter = horizontal_neighbors.count(FILL_SYMBOL)
+
+                if vertical_neighbors_counter == 3:
+                    calculater_grid[x - 1][y] = FILL_SYMBOL
+                    calculater_grid[x + 1][y] = FILL_SYMBOL
+
+                if horizontal_neighbors_counter == 3:
+                    calculater_grid[x][y - 1] = FILL_SYMBOL
+                    calculater_grid[x][y + 1] = FILL_SYMBOL
 
     for i in range(NUM_ROWS):
         print(calculater_grid[i])

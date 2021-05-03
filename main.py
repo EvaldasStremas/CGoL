@@ -1,11 +1,11 @@
 import copy
+import os
 
+CYCLES = 3
 NUM_ROWS = 6
 NUM_COLS = 6
 EMPTY_SYMBOL = "O"
 FILL_SYMBOL = "X"
-START_POINT_ROWS = 2
-START_POINT_COLS = 2
 
 
 def get_empty_grid(num_cols, num_rows, empty_symbol):
@@ -24,73 +24,80 @@ def print_grid(grid):
         print(grid[i])
 
 
-def replace_grid(grid, START_POINT_COLS, START_POINT_ROWS):
-    grid[START_POINT_COLS][START_POINT_ROWS] = FILL_SYMBOL
-    return grid
-
-
 # ------------------------------------MAIN-----------------------------------------
+
 def main():
     grid = get_empty_grid(NUM_COLS, NUM_ROWS, EMPTY_SYMBOL)
     calculater_grid = copy.deepcopy(grid)
-    grid = replace_grid(grid, START_POINT_COLS, START_POINT_ROWS)
 
-    grid[2][3] = 'X'
-    grid[2][4] = 'X'
+    ####### Blinker
     grid[2][1] = 'X'
+    grid[2][2] = 'X'
+    grid[2][3] = 'X'
+
+    # ####### Glider
+    # grid[3][1] = 'X'
+    # grid[4][2] = 'X'
+    # grid[4][3] = 'X'
+    # grid[2][3] = 'X'
+    # grid[3][3] = 'X'
 
     print_grid(grid)
-    print()
 
-    for x in range(NUM_ROWS):
-        for y in range(NUM_COLS):
+    for z in range(CYCLES):
+        for x in range(NUM_ROWS):
+            for y in range(NUM_COLS):
 
-            if grid[x][y] == FILL_SYMBOL:
-                around_point = [
-                    grid[x - 1][y - 1],
-                    grid[x - 1][y],
-                    grid[x - 1][y + 1],
-                    grid[x][y - 1],
-                    grid[x][y + 1],
-                    grid[x + 1][y - 1],
-                    grid[x + 1][y],
-                    grid[x + 1][y + 1]
-                ]
+                if grid[x][y] == FILL_SYMBOL:
+                    around_point = []
+                    points = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
 
-                x_counter = around_point.count(FILL_SYMBOL)
+                    for x_offset, y_offset in points:
 
-                if x_counter == 2:
-                    calculater_grid[x][y] = FILL_SYMBOL
+                        # if x + x_offset in range(NUM_ROWS) and y + y_offset in range(NUM_COLS):
+                        #     around_point.append(grid[x + x_offset][y + y_offset])
 
-                if x_counter == 3:
-                    calculater_grid[x][y] = FILL_SYMBOL
+                        if x+x_offset >= 0 or x+x_offset <= NUM_COLS and y+y_offset >= 0 or y+y_offset <= NUM_ROWS:
+                            around_point.append(grid[x+x_offset][y+y_offset])
 
-                horizontal_neighbors = [
-                    grid[x - 1][y],
-                    grid[x][y],
-                    grid[x + 1][y],
-                ]
+                    x_counter = around_point.count(FILL_SYMBOL)
 
-                vertical_neighbors = [
-                    grid[x][y - 1],
-                    grid[x][y],
-                    grid[x][y + 1],
-                ]
+                    # Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+                    if x_counter < 2:
+                        calculater_grid[x][y] = EMPTY_SYMBOL
 
-                vertical_neighbors_counter = vertical_neighbors.count(FILL_SYMBOL)
-                horizontal_neighbors_counter = horizontal_neighbors.count(FILL_SYMBOL)
+                    # Any live cell with two or three live neighbours lives on to the next generation.
+                    if 2 <= x_counter <= 3:
+                        calculater_grid[x][y] = FILL_SYMBOL
 
-                if vertical_neighbors_counter == 3:
-                    calculater_grid[x - 1][y] = FILL_SYMBOL
-                    calculater_grid[x + 1][y] = FILL_SYMBOL
+                    # Any live cell with more than three live neighbours dies, as if by overpopulation.
+                    if x_counter > 3:
+                        calculater_grid[x][y] = EMPTY_SYMBOL
 
-                if horizontal_neighbors_counter == 3:
-                    calculater_grid[x][y - 1] = FILL_SYMBOL
-                    calculater_grid[x][y + 1] = FILL_SYMBOL
+                # Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+                elif grid[x][y] == EMPTY_SYMBOL:
+                    around_point = []
+                    points = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
 
-    for i in range(NUM_ROWS):
-        print(calculater_grid[i])
+                    for x_offset, y_offset in points:
+
+                        if x + x_offset in range(NUM_ROWS) and y + y_offset in range(NUM_COLS):
+                            around_point.append(grid[x + x_offset][y + y_offset])
+
+                        # if x+x_offset >= 0 or x+x_offset <= NUM_COLS and y+y_offset >= 0 or y+y_offset <= NUM_ROWS:
+                        #     around_point.append(grid[x+x_offset][y+y_offset])
+
+                    x_counter = around_point.count(FILL_SYMBOL)
+
+                    if x_counter == 3:
+                        calculater_grid[x][y] = FILL_SYMBOL
+
+        print()
+        for i in range(NUM_ROWS):
+            print(calculater_grid[i])
+        grid = copy.deepcopy(calculater_grid)
 
 
 if __name__ == '__main__':
+    os.system('cls' if os.name == 'nt' else 'clear')
     main()

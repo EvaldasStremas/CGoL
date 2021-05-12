@@ -14,6 +14,8 @@ available_flights = [
     {"from": "City X", "to": "City W", "price": 35, "flight id": "012"},
 ]
 
+#test
+
 class flights:
 
     def get_city_t_ids(self, available_flights):

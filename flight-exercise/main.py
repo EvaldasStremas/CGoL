@@ -11,6 +11,7 @@ available_flights = [
     {"from": "City W", "to": "City T", "price": 40, "flight id": "009"},
     {"from": "City Y", "to": "City M", "price": 50, "flight id": "010"},
     {"from": "City X", "to": "City W", "price": 45, "flight id": "011"},
+    {"from": "City X", "to": "City W", "price": 35, "flight id": "012"},
 ]
 
 class flights:

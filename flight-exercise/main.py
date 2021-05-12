@@ -14,39 +14,39 @@ available_flights = [
     {"from": "City X", "to": "City W", "price": 35, "flight id": "012"},
 ]
 
-#testtesttesttttt
-
 class flights:
-
-    def get_city_t_ids(self, available_flights):
+    def __init__(self, available_flights):
+        self.a_flights = available_flights
+        
+    def get_city_t_ids(self):
         available_destinations = []
 
-        for i in range(len(available_flights)):
-            res = available_flights[i].get('to')
+        for i in range(len(self.a_flights)):
+            res = self.a_flights[i].get('to')
             if res == 'City T': 
-                available_destinations.append(available_flights[i].get('flight id'))
+                available_destinations.append(self.a_flights[i].get('flight id'))
 
         return available_destinations
 
-    def all_available_city_destinations(self, available_flights):
+    def all_available_city_destinations(self):
         all_a_d = []
 
-        for i in range(len(available_flights)):
-            all_city = available_flights[i].get('to')
+        for i in range(len(self.a_flights)):
+            all_city = self.a_flights[i].get('to')
             all_a_d.append(all_city)
             
         all_a_d = set(all_a_d)
 
         return all_a_d
 
-    def from_x_to_w(self, available_flights):
+    def from_x_to_w(self):
         x_cities_list = []
         to_w_city_list = []
 
         # Get all from City X cities
-        for i in range(len(available_flights)):
-            if available_flights[i].get('from') == 'City X':
-                x_cities_list.append(available_flights[i])
+        for i in range(len(self.a_flights)):
+            if self.a_flights[i].get('from') == 'City X':
+                x_cities_list.append(self.a_flights[i])
 
         # Get all to City W cities
         for i in range(len(x_cities_list)):
@@ -55,24 +55,23 @@ class flights:
 
         return to_w_city_list
 
-    def get_lowest_price_line(self, available_flights):
+    def get_lowest_price_line(self, a_flights):
         price_list = []
 
-        for i in range(len(available_flights)):
-            price_list.append(available_flights[i].get('price'))
+        for i in range(len(a_flights)):
+            price_list.append(a_flights[i].get('price'))
             price_list.sort()
             lowest_value = price_list[0]
 
-            if available_flights[i].get('price') == lowest_value:
-                lowest_price_line = available_flights[i]
+            if a_flights[i].get('price') == lowest_value:
+                lowest_price_line = a_flights[i]
             
-        # print(lowest_price_line)
         return lowest_price_line
 
-f = flights()
+f = flights(available_flights)
 print('All available IDs flight to "City T":')
-print(f.get_city_t_ids(available_flights))
+print(f.get_city_t_ids())
 print('All available cities:')
-print(f.all_available_city_destinations(available_flights))
+print(f.all_available_city_destinations())
 print('Cheapest trip from "City X" to "City W":')
-print(f.get_lowest_price_line(f.from_x_to_w(available_flights)))
+print(f.get_lowest_price_line(f.from_x_to_w()))

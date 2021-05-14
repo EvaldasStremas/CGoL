@@ -12,77 +12,104 @@ available_flights = [
     {"from": "City Y", "to": "City M", "price": 50, "flight id": "010"},
     {"from": "City X", "to": "City W", "price": 45, "flight id": "011"},
     {"from": "City X", "to": "City W", "price": 35, "flight id": "012"},
-]
+];
+
+class Flight:
+
+    fromCity = ""
+    toCity = ""
+    
+    def __init__(self):
+        pass
+
+    def addFields(self, data):
+        self.fromCity = data["from"]
+        self.toCity = data["to"]
+        self.price = data["price"]
+        self.id = data["flight id"]
+
+    def __str__(self):
+        return "{} {} {} {}".format(self.fromCity, 
+        self.toCity,
+        self.price,
+        self.id
+        )
 
 class FlightTable:
-    def __init__(self, available_flights):
-        for i in range(len(available_flights)):
-            self.cities = available_flights[i].get('from')
-            self.destinations = available_flights[i].get('to')
-            self.price = available_flights[i].get('price')
-            self.flight = available_flights[i].get('flight id')
 
-        # print(self.cities)
+    _accessCount = 0
+    _flights = []
+
+    def __init__(self, flights):
+        for fl in flights:
+            fli = Flight()
+            fli.addFields(fl)
+            self._flights.append(fli)
+
+    def getFlights(self):
+        self._accessCount += 1
+        return self._flights
+
+    def addFlight(self, data):
+        fl = Flight()
+        self._fli
+
+    def get_fromCity_list(self):
+        return self._flights
     
-class flights:
-    def __init__(self, available_flights):
-        self.a_flights = available_flights
+    def print_flights(self):
+        a = []
+        for item in self._flights:
+            print(item.fromCity)
+
+# Get all flight ids for flights that are going to 'city t'
+    def get_ids_to_city(self, city):
+        ids_list = []
+
+        for flight in self._flights:
+            if flight.toCity == city:
+                ids_list.append(flight.id)
         
-    def get_city_t_ids(self):
-        available_destinations = []
+        return ids_list
 
-        for i in range(len(self.flight)):
-            res = self.a_flights[i].get('to')
-            if res == 'City T': 
-                available_destinations.append(self.flight)
+# Get all available destinations for every city mentioned in the input
+    def get_availables_to_cities(self, input_city):
+        available_cities = []
 
-        return available_destinations
+        for flight in self._flights:
 
-    # def all_available_city_destinations(self):
-    #     all_a_d = []
+            if input_city == flight.toCity:
+                available_cities.append(flight.fromCity)
 
-    #     for i in range(len(self.a_flights)):
-    #         all_city = self.a_flights[i].get('to')
-    #         all_a_d.append(all_city)
+        return available_cities
+
+# Get cheapest roundtrip from 'city x' to 'city w'
+    def get_cheapest_roundtrip(self):
+        price_list = []
+        target_destinations = []
+
+        for flight in self._flights:
+            if flight.fromCity == 'City X':
+                if flight.toCity == 'City W':
+                    target_destinations.append(str(flight))
             
-    #     all_a_d = set(all_a_d)
+        price_list.append(flight.price)
+        price_list.sort()
+        lowest_price = price_list[0]
 
-    #     return all_a_d
+        for target in target_destinations:
+            target = target.split()
+            if str(lowest_price) in target:
+                lowest_price_flight = target
 
-    # def from_x_to_w(self):
-    #     x_cities_list = []
-    #     to_w_city_list = []
+        return lowest_price_flight
 
-    #     # Get all from City X cities
-    #     for i in range(len(self.a_flights)):
-    #         if self.a_flights[i].get('from') == 'City X':
-    #             x_cities_list.append(self.a_flights[i])
+flighttable = FlightTable(available_flights)
+flights = flighttable.getFlights()
+fromCity = flighttable.get_fromCity_list()
 
-    #     # Get all to City W cities
-    #     for i in range(len(x_cities_list)):
-    #         if x_cities_list[i].get('to') == 'City W':
-    #             to_w_city_list.append(x_cities_list[i])
-
-    #     return to_w_city_list
-
-    # def get_lowest_price_line(self, a_flights):
-    #     price_list = []
-
-    #     for i in range(len(a_flights)):
-    #         price_list.append(a_flights[i].get('price'))
-    #         price_list.sort()
-    #         lowest_value = price_list[0]
-
-    #         if a_flights[i].get('price') == lowest_value:
-    #             lowest_price_line = a_flights[i]
-            
-    #     return lowest_price_line
-
-f = flights(available_flights)
-table = FlightTable(available_flights)
-print('All available IDs flight to "City T":')
-print(f.get_city_t_ids())
-# print('All available cities:')
-# print(f.all_available_city_destinations())
-# print('Cheapest trip from "City X" to "City W":')
-# print(f.get_lowest_price_line(f.from_x_to_w()))
+# print(fromCity)
+# flighttable.print_flights()
+print(flighttable.get_ids_to_city('City X'))
+print(flighttable.get_availables_to_cities('City X'))
+print(flighttable.get_cheapest_roundtrip())

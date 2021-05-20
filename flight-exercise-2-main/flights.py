@@ -187,6 +187,7 @@ class FlightTable:
 
         for i in flight_list:
             o = len(i)
+            # print(o)
             # print(i[o-1])
             u.append(i[o-1])
 

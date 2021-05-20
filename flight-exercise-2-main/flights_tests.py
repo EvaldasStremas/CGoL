@@ -4,6 +4,7 @@ Run 2nd class: python -m unittest flights_tests.FlightsTestCase2
 https://docs.python.org/3/library/unittest.html 
 https://dev.to/karn/building-a-simple-state-machine-in-python
 '''
+#test
 
 import unittest
 import flights

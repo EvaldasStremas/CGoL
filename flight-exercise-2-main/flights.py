@@ -2,6 +2,8 @@ from itertools import permutations
 from operator import itemgetter
 import os
 
+#test
+
 available_flights = [
     {"from": "City Y", "to": "City X", "price": 60, "flight id": "000"},
     {"from": "City X", "to": "City Z", "price": 78, "flight id": "001"},
